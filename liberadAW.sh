@@ -53,5 +53,10 @@ while read line; do
       read line; echo -n $line;
       echo "${CLAVE}" >&3;
    fi
+   if [[ $line == *'please try'* ]]; then
+      echo -e "${line}";
+      echo $'\n' >&3;
+   fi
+
 done < <(ssh -tt $1@$2 <${fifo})
 exit_prog
