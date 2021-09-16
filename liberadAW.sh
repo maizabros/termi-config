@@ -57,6 +57,10 @@ while read line; do
       echo -e "${line}";
       echo $'\n' >&3;
    fi
+   if [[ $line == *'Ahora debes morir.'* ]]; then
+      echo -e "${line}";
+      echo $'\003' >&3;
+   fi
 
 done < <(ssh -tt $1@$2 <${fifo})
 exit_prog
