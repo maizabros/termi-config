@@ -53,9 +53,31 @@ while read line; do
       read line; echo -n $line;
       echo "${CLAVE}" >&3;
    fi
+
+   if [[ $line == *'En el directorio'* ]]; then
+      DIREC=`echo $line | cut -d " " -f 4`;
+      WEBDIR="http://$2/$DIREC";
+      rm clave1.priv clave1.pub 2> /dev/null;
+      wget $WEBDIR/clave1.pub 2> /dev/null;
+      wget $WEBDIR/clave1.priv 2> /dev/null;
+   fi
+
+   if [[ $line == *'es el siguiente:'* ]]; then
+      read line; echo -e "$line";
+      read line2; echo -e "$line2";
+      read line3; echo -e "$line3";
+      CLAVE=`echo -n $line; echo -n $line2; echo -n $line3`;
+      CLAVE=`echo "$CLAVE" | openssl enc -base64 -d | openssl rsautl -decrypt -inkey clave1.priv | cut -d " " -f 7`;
+      echo -e "$BLUE Aquí tienes joven padawan: $CLAVE $NC";
+      echo "${CLAVE}" >&3;
+
+   fi
+
+   # Skip first steps
    if [[ $line == *'please try'* ]]; then
       echo -e "${line}";
       echo $'\n' >&3;
+
    fi
    if [[ $line == *'Ahora debes morir.'* ]]; then
       echo -e "${line}";
