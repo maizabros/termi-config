@@ -198,6 +198,7 @@ while read line; do
    fi
    if [[ $line == *'Ahora debes morir.'* ]]; then
       # echo -e "${line}";
+      echo -e "$BLUE Que empiece el baile joven padawan... $NC";
       echo $'\003' >&3;
       FIRST=-1
    fi
@@ -205,6 +206,7 @@ while read line; do
    if [ $FIRST = -1 ]; then
       if [[ $line == *'Ahora adentro y securiza'* ]]; then
          # echo -e "${line}";
+         echo -e "$BLUE No caigas en los engaños de aquel que se guía por el camino del lado oscuro... $NC";
          echo $'\n\n\n' >&3;
       fi
    fi
