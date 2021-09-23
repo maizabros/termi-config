@@ -4,11 +4,10 @@ LISTASIM="aes-128-cbc aes-128-ecb aes-192-cbc aes-192-ecb aes-256-cbc aes-256-ec
 while read line; do
 	PASS=`echo "password{$line}"`;
 	for TYP in $LISTASIM; do
-		##  echo -e "Se prueba [$PASS] con [$TYP]";
 		CLAV=`echo "$FLAG" | openssl enc -$TYP -d -pass pass:$PASS 2> /dev/null | tr -d '\0'`;
-		# echo -e "$CLAV";
         	if [[ $CLAV == *'flag'* ]]; then
 			echo "La password es password$line con codificación $TYP"
+			echo $CLAV
 		fi
 	done;
 done;
