@@ -60,9 +60,9 @@ while read line; do
    fi
 
    if [[ $line == *'es el siguiente:'* ]]; then
-      read line; echo -e "$line";
-      read line2; echo -e "$line2";
-      read line3; echo -e "$line3";
+      read line; # echo -e "$line";
+      read line2; # echo -e "$line2";
+      read line3; # echo -e "$line3";
       CLAVE=`echo -n $line; echo -n $line2; echo -n $line3`;
       CLAVE=`echo "$CLAVE" | openssl enc -base64 -d | openssl rsautl -decrypt -inkey clave1.priv | cut -d " " -f 7`;
       # echo -e "$BLUE Aquí tienes joven padawan: $CLAVE $NC";
@@ -89,9 +89,9 @@ while read line; do
       rm clave1.priv clave1.pub 2> /dev/null;
       wget $WEBDIR/clave1.pub 2> /dev/null;
       wget $WEBDIR/clave1.priv 2> /dev/null;
-      read line; echo -e "$line";
-      read line2; echo -e "$line2";
-      read line3; echo -e "$line3";
+      read line; # echo -e "$line";
+      read line2; # echo -e "$line2";
+      read line3; # echo -e "$line3";
       PASS=`echo -n $line; echo -n $line2; echo -n $line3`;
       PASS=`echo "$PASS" | openssl enc -base64 -d | openssl rsautl -decrypt -inkey clave1.priv | cut -d " " -f 5`;
       CLAVE=`echo "$CLAVE" | openssl enc -base64 -d | openssl enc -$COD -d -pass "pass:$PASS" | cut -d " " -f 7`;
