@@ -24,7 +24,7 @@ while read line; do
    then
       read line;
       # echo -e "$line";
-      CLAVE=`echo "$line" | openssl enc -base64 -d`;
+      CLAVE=`echo "$line" | openssl enc -base64 -d 2> /dev/null`;
       # echo -e "$BLUE Aquí tienes joven padawan: $CLAVE $NC";
       echo "${CLAVE}" >&3;
    fi
@@ -32,7 +32,7 @@ while read line; do
    if [[ $line == *'el hash'* ]]
    then
       COD=`echo $line | cut -d " " -f 7`
-      CLAVE=`echo -n $CLAVE | openssl dgst -$COD | cut -d " " -f 2`;
+      CLAVE=`echo -n $CLAVE | openssl dgst -$COD 2> /dev/null | cut -d " " -f 2`;
       # echo -e "$BLUE Aquí tienes joven padawan: $CLAVE $NC";
       echo "${CLAVE}" >&3;
    fi
@@ -45,7 +45,7 @@ while read line; do
       read line; # echo -e "$line";
       read line2; # echo -e "$line2";
       CLAVE=`echo -n $line; echo -n $line2`;
-      CLAVE=`echo "$CLAVE" | openssl enc -base64 -d | openssl enc -$COD -d -pass "pass:$PASS" | cut -d " " -f 7`;
+      CLAVE=`echo "$CLAVE" | openssl enc -base64 -d | openssl enc -$COD -d -pass "pass:$PASS" 2> /dev/null | cut -d " " -f 7`;
       # echo -e "$BLUE Aquí tienes joven padawan: $CLAVE $NC";
       read line; # echo -n $line;
       echo "${CLAVE}" >&3;
@@ -64,7 +64,7 @@ while read line; do
       read line2; # echo -e "$line2";
       read line3; # echo -e "$line3";
       CLAVE=`echo -n $line; echo -n $line2; echo -n $line3`;
-      CLAVE=`echo "$CLAVE" | openssl enc -base64 -d | openssl rsautl -decrypt -inkey clave1.priv | cut -d " " -f 7`;
+      CLAVE=`echo "$CLAVE" | openssl enc -base64 -d 2> /dev/null | openssl rsautl -decrypt -inkey clave1.priv 2> /dev/null | cut -d " " -f 7`;
       # echo -e "$BLUE Aquí tienes joven padawan: $CLAVE $NC";
       echo "${CLAVE}" >&3;
 
@@ -93,10 +93,10 @@ while read line; do
       read line2; # echo -e "$line2";
       read line3; # echo -e "$line3";
       PASS=`echo -n $line; echo -n $line2; echo -n $line3`;
-      PASS=`echo "$PASS" | openssl enc -base64 -d | openssl rsautl -decrypt -inkey clave1.priv | cut -d " " -f 5`;
-      CLAVE=`echo "$CLAVE" | openssl enc -base64 -d | openssl enc -$COD -d -pass "pass:$PASS" | cut -d " " -f 7`;
+      PASS=`echo "$PASS" | openssl enc -base64 -d | openssl rsautl -decrypt -inkey clave1.priv 2> /dev/null | cut -d " " -f 5`;
+      CLAVE=`echo "$CLAVE" | openssl enc -base64 -d | openssl enc -$COD -d -pass "pass:$PASS" 2> /dev/null| cut -d " " -f 7`;
       # echo -e "$BLUE Aquí tienes joven padawan: $CLAVE $NC";
-      read line; echo -n $line;
+      read line; # echo -n $line;
       echo "${CLAVE}" >&3;
 
     fi
@@ -148,7 +148,7 @@ while read line; do
 
     if [[ $line == *'de file1?'* ]]; then
       for i in {1..3}; do
-         RET=`openssl dgst -$COD -c -signature key1 -verify clave$i.pub file1` 
+         RET=`openssl dgst -$COD -c -signature key1 -verify clave$i.pub file1 2> /dev/null` 
          if [[ $RET == *'OK'* ]]; then
             echo "$i" >&3;
          fi
@@ -157,7 +157,7 @@ while read line; do
 
     if [[ $line == *'de file2?'* ]]; then
       for i in {1..3}; do
-         RET=`openssl dgst -$COD -c -signature key2 -verify clave$i.pub file2` 
+         RET=`openssl dgst -$COD -c -signature key2 -verify clave$i.pub file2 2> /dev/null` 
          if [[ $RET == *'OK'* ]]; then
             echo "$i" >&3;
          fi
@@ -166,7 +166,7 @@ while read line; do
       
     if [[ $line == *'de file3?'* ]]; then
       for i in {1..3}; do
-         RET=`openssl dgst -$COD -c -signature key3 -verify clave$i.pub file3` 
+         RET=`openssl dgst -$COD -c -signature key3 -verify clave$i.pub file3 2> /dev/null` 
          if [[ $RET == *'OK'* ]]; then
             echo "$i" >&3;
          fi
@@ -175,7 +175,7 @@ while read line; do
 
     if [[ $line == *'de file4?'* ]]; then
       for i in {1..3}; do
-         RET=`openssl dgst -$COD -c -signature key4 -verify clave$i.pub file4` 
+         RET=`openssl dgst -$COD -c -signature key4 -verify clave$i.pub file4 2> /dev/null` 
          if [[ $RET == *'OK'* ]]; then
             echo "$i" >&3;
          fi
@@ -184,7 +184,7 @@ while read line; do
 
     if [[ $line == *'de file5?'* ]]; then
       for i in {1..3}; do
-         RET=`openssl dgst -$COD -c -signature key5 -verify clave$i.pub file5` 
+         RET=`openssl dgst -$COD -c -signature key5 -verify clave$i.pub file5 2> /dev/null` 
          if [[ $RET == *'OK'* ]]; then
             echo "$i" >&3;
          fi
